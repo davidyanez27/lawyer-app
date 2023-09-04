@@ -3,10 +3,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import userRoutes from "./routes/usuarios.routes";
-import db from "../db/connection";
+import db from "./db/connection";
 
 // Load environment variables from .env file
-dotenv.config({ path: "./src/server/.env" });
+dotenv.config({ path: "./server/.env" });
 console.log(process.env.PORT);
 
 class Server {
