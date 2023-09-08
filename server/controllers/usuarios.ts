@@ -20,34 +20,34 @@ export const getUsuario = async (req: Request, res: Response) => {
   }
 };
 
-export const postUsuario = async(req: Request, res: Response) => {
-  const { body } = req;
+// export const postUsuario = async(req: Request, res: Response) => {
+//   const { body } = req;
 
-  try {
+//   try {
 
-    const existeEmail = await Usuario.findOne({
-        where:{
-            id:body.id
-        }
-    });
+//     const existeEmail = await Usuario.findOne({
+//         where:{
+//             id:body.id
+//         }
+//     });
 
-    if (existeEmail){
-        return res.status(400).json({
-            msg:'Ya existe un usuario con el id '+ body.id
-        });
-    }
+//     if (existeEmail){
+//         return res.status(400).json({
+//             msg:'Ya existe un usuario con el id '+ body.id
+//         });
+//     }
 
-    const usuario = Usuario.build(body);
-    await usuario.save();
-    res.json( {usuario} );
+//     const usuario = Usuario.build(body);
+//     await usuario.save();
+//     res.json( {usuario} );
     
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-        msg: 'Hable con el administrador'
-    });
-  }
-};
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//         msg: 'Hable con el administrador'
+//     });
+//   }
+// };
 
 export const putUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;

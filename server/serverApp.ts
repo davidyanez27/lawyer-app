@@ -6,7 +6,7 @@ import userRoutes from "./routes/usuarios.routes";
 import db from "./db/connection";
 
 // Load environment variables from .env file
-dotenv.config({ path: "./server/.env" });
+dotenv.config({ path: "./.env" });
 console.log(process.env.PORT);
 
 class Server {
@@ -14,7 +14,7 @@ class Server {
   private port: number;
 
   private apiPaths = {
-    usuarios: "/api/usuarios",
+    usuarios: "/api/users",
   };
 
   constructor() {

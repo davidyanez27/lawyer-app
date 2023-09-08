@@ -6,7 +6,7 @@ const Usuario = db.define('Usuario', {
         type: DataTypes.INTEGER,
         primaryKey: true,
     },
-    nombre:{
+    name:{
         type: DataTypes.STRING
     },
     email:{
@@ -14,9 +14,6 @@ const Usuario = db.define('Usuario', {
     },
     password:{
         type: DataTypes.STRING
-    },
-    fecha:{
-        type: DataTypes.DATE
     },
     idRol:{
         type: DataTypes.INTEGER
