@@ -6,7 +6,7 @@ import { Op } from "sequelize";
 import {createAccessToken} from '../libs/jwt'
 import Usuario from "../models/usuario";
 
-export const postUsuario = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response) => {
   const { id, name, email, password } = req.body;
 
   try {
@@ -29,7 +29,6 @@ export const postUsuario = async (req: Request, res: Response) => {
     const token = await createAccessToken({id:id}); 
     res.cookie('token',token);
 
-    
     const requestUsuario = await Usuario.build({
       id,
       name,
@@ -39,9 +38,12 @@ export const postUsuario = async (req: Request, res: Response) => {
     const usuario = await requestUsuario.save();
     res.json({ usuario });
   } catch (error) {
+    if (typeof error === "object" && error && "message" in error && typeof error.message === "string") {
+      res.status(500).json({
+        message: error.message
+      });
+    }
     console.log(error);
-    res.status(500).json({
-      msg: "Hable con el administrador",
-    });
+    
   }
 };

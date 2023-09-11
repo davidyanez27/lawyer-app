@@ -1,15 +1,19 @@
 import { Router } from 'express';
-import { getUsuario, getUsuarios, putUsuario, deleteUsuario } from '../controllers/usuarios';
-import { postUsuario } from '../controllers/register';
+import { putUsuario, deleteUsuario } from '../controllers/usuarios';
+import { register } from '../controllers/register';
+import { login, logout } from '../controllers/login';
+import { profile } from '../controllers/profile';
+import { authRequired } from '../middlewares/validateToken';
 
 
 const router = Router();
 
-router.get('/',       getUsuarios);
-router.get('/:id',    getUsuario);
-router.post('/',      postUsuario);
-router.put('/:id',    putUsuario);
-router.delete('/:id', deleteUsuario);
+router.post('/register', register);
+router.post('/login'   , login);
+router.post('/logout'  , logout);
+router.get('/profile'  , authRequired , profile);
+router.put('/:id',       putUsuario);
+router.delete('/:id',    deleteUsuario);
 
 
 

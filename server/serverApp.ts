@@ -1,8 +1,10 @@
 import express, { Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import userRoutes from "./routes/usuarios.routes";
+import documentRoutes from './routes/document.routes'
 import db from "./db/connection";
 
 // Load environment variables from .env file
@@ -33,12 +35,17 @@ class Server {
     //Lectura del body
     this.app.use(express.json());
 
+    //Lectura de cookies
+    this.app.use(cookieParser());
+
     //Carpeta Publica
     this.app.use(express.static("React"));
   }
 
   routes() {
     this.app.use(this.apiPaths.usuarios, userRoutes);
+    //Documents
+    this.app.use(this.apiPaths.usuarios, documentRoutes);
   }
 
   async dbConnection() {
@@ -46,7 +53,12 @@ class Server {
       await db.authenticate();
       console.log("Database online");
     } catch (error) {
-      if (typeof error === "object" && error && "message" in error && typeof error.message === "string") {
+      if (
+        typeof error === "object" &&
+        error &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
         console.log(error.message);
       }
     }
