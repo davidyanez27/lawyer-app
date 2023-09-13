@@ -9,6 +9,7 @@ import Usuario from "../models/usuario";
 export const register = async (req: Request, res: Response) => {
   const { id, name, email, password } = req.body;
 
+
   try {
     const existUsername = await Usuario.findOne({
       where: {
