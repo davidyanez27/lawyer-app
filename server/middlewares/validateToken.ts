@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import {Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { RequestExpress } from "../types/request.types";
 
 type Next = () => void | Promise<void>;
 
-export const authRequired = (req: Request, res: Response, next: Next) => {
+export const authRequired = (req: RequestExpress, res: Response, next: Next) => {
   // Load environment variables from .env file
   dotenv.config({ path: "./.env" });
   const secretToken = process.env.TOKEN || "secret";
@@ -23,7 +24,7 @@ export const authRequired = (req: Request, res: Response, next: Next) => {
       }
 
       console.log(user);
-      req.body = user;
+      req.user = user;
 
       return next();
     }
