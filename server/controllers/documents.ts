@@ -8,21 +8,18 @@ export const createDocument = async (req: Request, res: Response) => {
     const {name, and, name1} = req.body || '';
 
     const doc = readDoc("autorizathion.docx");
+    req.body.undefined = '';
 
-    const cleanData = Object.entries(req.body).reduce((acc, [key, value]) => {
-      if (value !== undefined) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {} as any);
     
-    doc.render(cleanData);
+    doc.render(req.body);
+
+
 
     const buf = doc.getZip().generate({
       type: "nodebuffer",
       compression: "DEFLATE",
     });
-    fs.writeFileSync(path.resolve(__dirname, "../out", `autorizacion para salir del pais ${name}${and}${name1}.docx`), buf);
+    fs.writeFileSync(path.resolve(__dirname, "../out", `autorizacion para salir del pais ${name} ${and} ${name1}.docx`), buf);
 
     res.json(req.body);
   } catch (error) {
