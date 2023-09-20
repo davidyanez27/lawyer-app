@@ -9,7 +9,16 @@ export const createDocument = async (req: Request, res: Response) => {
 
     const doc = readDoc("autorizathion.docx");
     req.body.undefined = '';
+    console.log(req.body);
 
+    const cleanData = Object.entries(req.body).reduce((acc, [key, value]) => {
+      if (value !== undefined) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {} as any);
+    
+    console.log(cleanData);
     
     doc.render(req.body);
 
