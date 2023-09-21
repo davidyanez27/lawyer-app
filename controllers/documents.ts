@@ -5,32 +5,20 @@ import { readDoc } from "../libs/document";
 
 export const createDocument = async (req: Request, res: Response) => {
   try {
-    const {name, and, name1} = req.body || '';
+    const {name, and, name1} = req.body;
 
-    const doc = readDoc("autorizathion.docx");
-    req.body.undefined = '';
-    console.log(req.body);
-
-    const cleanData = Object.entries(req.body).reduce((acc, [key, value]) => {
-      if (value !== undefined) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {} as any);
+    const {doc, obj} = readDoc("autorizathion.docx");    
+    const mergedData = { ...obj, ...req.body };
     
-    console.log(cleanData);
-    
-    doc.render(req.body);
-
-
+    doc.render(mergedData);
 
     const buf = doc.getZip().generate({
       type: "nodebuffer",
       compression: "DEFLATE",
     });
-    fs.writeFileSync(path.resolve(__dirname, "../out", `autorizacion para salir del pais ${name} ${and} ${name1}.docx`), buf);
-
+    fs.writeFileSync(path.resolve(__dirname, "../out", `autorizacion para salir del pais ${name}${and==undefined?'':and}${name1==undefined?'':name1}.docx`), buf);
     res.json(req.body);
+
   } catch (error) {
     if (
       typeof error === "object" &&

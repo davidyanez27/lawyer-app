@@ -11,7 +11,7 @@ import { registerSchema, loginSchema } from "../schemas/auth.schema";
 const router = Router();
 
 router.post('/register',validateSchema(registerSchema), register);
-router.post('/login'   ,validateSchema(registerSchema), login);
+router.post('/login'   ,validateSchema(loginSchema), login);
 router.post('/logout'  , logout);
 router.get('/profile'  , authRequired , profile);
 router.put('/:id',       putUsuario);
