@@ -19,7 +19,7 @@ export const register = async (req: Request, res: Response) => {
 
     if (existUsername) {
       return res.status(400).json({
-        msg: "Ya existe un usuario con el id " + id,
+        message: ["This id has alredy been taken"]
       });
     }
 
