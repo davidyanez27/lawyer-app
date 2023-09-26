@@ -5,9 +5,9 @@ import { readDoc } from "../libs/document";
 
 export const createDocument = async (req: Request, res: Response) => {
   try {
-    const {name, and, name1} = req.body;
+    const {name, and, name1, templateName} = req.body;
 
-    const {doc, obj} = readDoc("autorizathion.docx");    
+    const {doc, obj} = readDoc(templateName==undefined?'':templateName);    
     const mergedData = { ...obj, ...req.body };
     
     doc.render(mergedData);

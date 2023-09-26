@@ -12,7 +12,7 @@ export const authRequired = (req: RequestExpress, res: Response, next: Next) => 
 
   const { token } = req.cookies;
   if (!token) {
-    return res.status(401).json({ message: "No token, authorization denied" });
+    return res.status(401).json( ["No token, authorization denied"] );
   }
 
   jwt.verify(

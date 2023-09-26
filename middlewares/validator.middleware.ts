@@ -15,6 +15,6 @@ export const validateSchema =
     } catch (error) {
       return res
         .status(400)
-        .json({ error: (error as ValidationError).issues.map(error => error.message)});
+        .json((error as ValidationError).issues.map(error => error.message));
     }
   };
