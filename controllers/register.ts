@@ -23,6 +23,18 @@ export const register = async (req: Request, res: Response) => {
       });
     }
 
+    const existEmail = await Usuario.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (existEmail) {
+      return res.status(400).json({
+        message: ["This email has alredy been taken"]
+      });
+    }
+
     //encryptic the password
     const passwordHash = await bcrypt.hash(password, 10); 
 
