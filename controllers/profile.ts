@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 
 import Usuario from "../models/usuario";
+import { IUsuario } from '../types/interfaces';
 
 export const profile = async (req: Request, res: Response) => {
-  interface IUsuario {
-    id: number;
-    email: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }
+  // interface IUsuario {
+  //   id: number;
+  //   email: string;
+  //   createdAt: Date;
+  //   updatedAt: Date;
+  // }
+  
 
   const userFound = (await Usuario.findByPk(req.body.id)) as IUsuario | null;
 

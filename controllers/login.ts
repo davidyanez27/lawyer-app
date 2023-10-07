@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 import { createAccessToken } from "../libs/jwt";
 import Usuario from "../models/usuario";
+import { IUsuario, UserToken } from "../types/interfaces";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -24,7 +27,7 @@ export const login = async (req: Request, res: Response) => {
       const isMatch = await bcrypt.compare(password, userFound.password);
       if (!isMatch) {
         return res.status(400).json({
-          message: ["Invalid email or password"]
+          message: ["Invalid email or password"],
         });
       }
     } else {
@@ -60,4 +63,38 @@ export const logout = (req: Request, res: Response) => {
     expires: new Date(0),
   });
   return res.sendStatus(200);
+};
+
+export const verifyToken = async (req: Request, res: Response) => {
+ 
+  // Load environment variables from .env file
+  dotenv.config({ path: "./.env" });
+  const secretToken = process.env.TOKEN || "secret";
+
+  const { token } = req.cookies;
+
+  if (!token) return res.send(false);
+
+  jwt.verify(
+    token,
+    secretToken,
+    async (err: Error | null, user: Object | undefined) => {
+      if (err) {
+        console.log(err);
+        return res.sendStatus(401);
+      }
+
+      if (user != undefined) {
+        const userFound = await Usuario.findByPk((user as UserToken).id);
+        if (!userFound) return res.sendStatus(401);
+
+        const userData: UserToken = userFound.get() as UserToken;
+        return res.json({
+          id: userData.id,
+          name: userData.name,
+          email: userData.email,
+        });
+      }
+    }
+  );
 };
