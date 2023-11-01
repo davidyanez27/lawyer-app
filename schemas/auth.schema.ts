@@ -63,7 +63,7 @@ export const documentSchema = z.object({
       required_error: "Address is required",
     }),
     id: z
-    .number({
+    .string({
       required_error: "Id is required",
     }),
     templateName: z
